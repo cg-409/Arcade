@@ -1,26 +1,3 @@
-<!--
-File: index.html
-Purpose: Arcade-style cyber incident response game (airport theme). Deployable on GitHub Pages.
-
-TL;DR
-- Single-file React app (index.html) using CDN React + Babel so it runs on GitHub Pages without build step.
-- 30-minute timer (1800s), 10 multiple-choice incident scenarios, 60s penalty per wrong answer, player name input, end-of-game leaderboard stored in localStorage.
-- Includes inline SVG graphics and small base64-encoded audio cues so repo is self-contained.
-
-PLAN / PSEUDOCODE
-1. UI screens: Welcome (name input), Game (question carousel + timer), End (score + leaderboard).
-2. State: playerName, currentQuestionIndex, remainingTime (seconds), score, answersCorrect, leaderboard (localStorage), playing flag.
-3. Timer: setInterval that decreases remainingTime every second; if reaches 0 end game. Incorrect answer subtracts PENALTY seconds (clamped to 0).
-4. Questions: 10 crafted airport-themed cyber IR scenarios with 4 choices each and one correct index. Each question gives points (100 + remainingTime bonus per question) and immediate feedback sound/visual.
-5. Leaderboard: top 10 entries sorted by score then time left. Inputs saved to localStorage as JSON.
-6. Sounds: base64 small beep/ding/wrong. Graphics: inline SVGs (airport, plane, shield) and CSS arcade look.
-7. Accessibility: keyboard navigation for choices, focus, aria attributes.
-
---------------------------------------
-FULL SINGLE-FILE APP (index.html)
-Paste this file at the repo root (index.html). Commit + push to GitHub, enable GitHub Pages for branch main -> / (or simply open file locally).
-
--->
 <!doctype html>
 <html lang="en">
 <head>
