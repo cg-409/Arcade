@@ -4,8 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Airport Cyber Crisis</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEUAAAD///////////////////////////////////////////////////////////9NTU3///////////////9DQ0P///////////////////////9hYWFpaWn///+ampq/v7/+/v7x8fHt7e3i4uLg4ODf39/8/Pzv7+/f39+jo6P////u7u6jo6P///9kZGRsbGzPz88lJSWhoc7Q0NAzMzP09PRtbW1lZWXf399BQUHt7e1HR0djY2OlpaXDw8MfHx+cnJyhoaHp6enV1dXHx8fw8PDj4+PZ2dl8fHzY2Njj4+O+vr7l5eX///9+fn6RkZGOjo6xsbH29vYhISHy8vLe3t7i4uLn5+eNjY37+/tVVVXZ2dlmZmbX19fCwsJwcHBbW1uFhYV7e3v09PT39/d0dHSvr6+Tk5Pl5eVLS0tvb2+ioqKAgIBKSkqZmZkhISESEhIKCgoAAAD1M+zpAAAAWXRSTlMAAwUIKjA2P0lNY3B/dXmVkZWiq7G9wcbKz9bh5+jr7vDx9vj6/f7/+D6iQHq5RTx8MYZyQxGeMcKnpOpo1oAfzvKw8nHUU7mwDnYB5r4/ETSYzV/A50L0dU2BiymEQuIAAAAtElEQVQY022Q51LCMBBFq3wFhVhhKK2t1QAgqKgq7d3u/39x6IEEeZe8mzk/G/wQkKS4hOJcZ8Sl+oVGFG+ZqVkpVr2uKqNKsoCwloNcqM5wDEPo7Ob6fMSnqppmxpK6mUyFYDNlHfdjjrZrKmI8T5GZJcwvDP5Voq1nDQMErtjhhbDQpxVttkRBosZVkeM1yiSoI0DN17w+x/EZhfnALZfxgDXldexxhAPNh2GXcg1XuwqDNm5Z8XNgYjsT+/kA3O7f3YQhePn3A7F3Yr9t/7ZJbBz3oAPkGiPHUNwQeChwfO5QwAYI3c7KkOfk98AAg4VjbiMI6OcAAAAASUVORK5CYII=" />
   <style>
     body {
       margin: 0;
@@ -22,8 +20,10 @@
       content: "";
       position: fixed;
       top:0; left:0; right:0; bottom:0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="url(%23grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="%230a1a2f" stop-opacity="0.9"/><stop offset="100%" stop-color="%230e223b" stop-opacity="0.9"/></linearGradient></defs><g fill="%23ffffff22"><path d="M100 500 l50 -150 50 150z"/><rect x="400" y="450" width="30" height="150"/><polygon points="415,400 440,450 390,450"/><polygon points="700,420 720,460 680,460"/></g><g fill="%23ffffff55"><polygon points="200,200 250,210 230,230"/><polygon points="600,150 650,160 620,180"/></g></svg>') no-repeat center center;
-      background-size: cover;
+      /* Background placeholder for logo */
+      background: url('stem-logo.png') no-repeat top 20px right 20px,
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="url(%23grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="%230a1a2f" stop-opacity="0.9"/><stop offset="100%" stop-color="%230e223b" stop-opacity="0.9"/></linearGradient></defs><g fill="%23ffffff22"><path d="M100 500 l50 -150 50 150z"/><rect x="400" y="450" width="30" height="150"/><polygon points="415,400 440,450 390,450"/><polygon points="700,420 720,460 680,460"/></g><g fill="%23ffffff55"><polygon points="200,200 250,210 230,230"/><polygon points="600,150 650,160 620,180"/></g></svg>') no-repeat center center;
+      background-size: contain, cover;
       z-index: -1;
     }
     .wrap { max-width: 600px; width: 100%; padding: 20px; }
@@ -103,10 +103,12 @@
   const STORAGE_KEY = 'airport_cyber_leaderboard_v1';
   const AUDIO_PREF_KEY = 'airport_cyber_audio_pref';
 
-  const SOUND_DING = "data:audio/wav;base64,UklGRpYAAABXQVZFZm10IBAAAAABAAEAIlYAAB9AAACABAAZGF0YVYAAAAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA";
-  const SOUND_WRONG = "data:audio/wav;base64,UklGRtIAAABXQVZFZm10IBAAAAABAAEAIlYAAB9AAACABAAZGF0YXYAAAAA//8AAP7/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA";
+  // ✅ Short working sounds
+  const SOUND_DING = "data:audio/wav;base64,UklGRoYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="; // short click beep
+  const SOUND_WRONG = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="; // different click beep
 
-  const QUESTIONS = [
+  let QUESTIONS = [
+    // Original 10
     {title:'A suspicious Wi-Fi network named "Airport_Guest_FREE" appears. What\'s your first action?', choices:['Block SSID and kick clients','Notify passengers','Disconnect staff devices','Scan with unauth tool'], correct:2},
     {title:'Spoofed payroll email received. What is priority?', choices:['Delete','Reset password','Quarantine and preserve headers','Publish to staff'], correct:2},
     {title:'Flight display screens defaced. Immediate step?', choices:['Reboot displays','Take offline and collect logs','Wait 24h','Call vendor only'], correct:1},
@@ -116,7 +118,19 @@
     {title:'Unknown USB auto-installs software. What do you do?', choices:['Wipe laptop','Isolate, image drive, investigate','Install AV quick scan','Ignore'], correct:1},
     {title:'Cloned badge detected. Best response?', choices:['Reissue all','Audit logs, remove clones, tighten checks','Close lounge','Disable readers'], correct:1},
     {title:'Exposed HVAC admin interface. Immediate action?', choices:['Contact vendor','Block public access, notify','Change settings','Exploit test'], correct:1},
-    {title:'Phishing campaign at staff. How reduce impact?', choices:['Awareness + simulated campaign','Disable all email','Fire staff','Ignore'], correct:0}
+    {title:'Phishing campaign at staff. How reduce impact?', choices:['Awareness + simulated campaign','Disable all email','Fire staff','Ignore'], correct:0},
+
+    // New 10
+    {title:'Critical server patch is delayed due to vendor issue. What do you do?', choices:['Ignore','Document risk, apply mitigations','Switch vendor','Publicly complain'], correct:1},
+    {title:'Suspicious bag left near data center entrance. First action?', choices:['Move bag','Report to security','Open it carefully','Ignore'], correct:1},
+    {title:'Airline API keys accidentally leaked online. Best action?', choices:['Rotate keys immediately','Wait for incident','Postpone to next patch','Ignore'], correct:0},
+    {title:'Social media rumor of hacked booking system. What next?', choices:['Investigate logs, verify rumor','Post denial immediately','Shut down bookings','Ignore'], correct:0},
+    {title:'IDS shows brute-force attempts on VPN. Response?', choices:['Block offending IPs and monitor','Turn off VPN','Alert staff only','Ignore'], correct:0},
+    {title:'Third-party catering network connected improperly. First step?', choices:['Disconnect and isolate','Trust vendor','Ignore','Let them continue'], correct:0},
+    {title:'Pilot EFB (tablet) compromised with malware. Next?', choices:['Isolate device, switch to backup process','Ignore','Factory reset immediately','Blame pilot'], correct:0},
+    {title:'Unusual outbound DNS traffic. What is best action?', choices:['Investigate, capture packets','Ignore','Block all DNS','Call ISP'], correct:0},
+    {title:'Employee posts boarding pass on social media. Response?', choices:['Awareness training, revoke code','Ignore','Fire employee','Post it again'], correct:0},
+    {title:'SCADA system controlling fuel pumps shows anomalies. Immediate action?', choices:['Isolate system, use manual override','Ignore','Update software during ops','Call media'], correct:0}
   ];
 
   const el = id => document.getElementById(id);
@@ -133,9 +147,9 @@
   let score = 0;
   let playerName = '';
 
-  function loadAudioPrefs(){
-    try{ const stored=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)); if(stored){ volume=stored.volume; muted=stored.muted; } }catch(e){}
-  }
+  function shuffle(array){ for(let i=array.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [array[i],array[j]]=[array[j],array[i]];} return array;}
+
+  function loadAudioPrefs(){ try{ const stored=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)); if(stored){ volume=stored.volume; muted=stored.muted; } }catch(e){} }
   function saveAudioPrefs(){ try{ localStorage.setItem(AUDIO_PREF_KEY, JSON.stringify({volume, muted})); }catch(e){} }
   function preLoadSounds(){ sounds.correct=new Audio(SOUND_DING); sounds.wrong=new Audio(SOUND_WRONG); setVolume(volume); if(muted){ setVolume(0);} }
   function setVolume(vol){ sounds.correct.volume=vol; sounds.wrong.volume=vol; }
@@ -147,6 +161,7 @@
   function startGame(){
     el('start-screen').classList.add('hidden'); el('game-screen').classList.remove('hidden');
     playerName=el('player-name').value||'Player'; score=0; currentQuestion=0; timeLeft=TOTAL_TIME;
+    QUESTIONS = shuffle(QUESTIONS); // ✅ randomize order
     renderQuestion(); timerInterval=setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0)endGame(); },1000);
   }
   function updateTimer(){ const m=Math.floor(timeLeft/60).toString().padStart(2,'0'); const s=(timeLeft%60).toString().padStart(2,'0'); el('timer').textContent=`${m}:${s}`; }
