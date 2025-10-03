@@ -3,111 +3,152 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Airport Cyber Crisis</title>
+  <title>Airport Cyber Crisis — Updated</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0a1a2f, #0e223b);
-      background-attachment: fixed;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top:0; left:0; right:0; bottom:0;
-      background: url(stem-logo.png) no-repeat top 20px right 20px,
-                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="url(%23grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="%230a1a2f" stop-opacity="0.9"/><stop offset="100%" stop-color="%230e223b" stop-opacity="0.9"/></linearGradient></defs><g fill="%23ffffff22"><path d="M100 500 l50 -150 50 150z"/><rect x="400" y="450" width="30" height="150"/><polygon points="415,400 440,450 390,450"/><polygon points="700,420 720,460 680,460"/></g><g fill="%23ffffff55"><polygon points="200,200 250,210 230,230"/><polygon points="600,150 650,160 620,180"/></g></svg>') no-repeat center center;
-      background-size: contain, cover;
-      z-index: -1;
-    }
-    .wrap { max-width: 600px; width: 100%; padding: 20px; }
-    .card {
-      background: rgba(0,0,0,0.6);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-    }
-    h1 { margin-top: 0; }
-    .btn {
-      background: #1e90ff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      color: #fff;
-      cursor: pointer;
-      margin: 5px 0;
-    }
-    .btn:hover { background: #63b3ff; }
-    .choices button {
-      display: block;
-      width: 100%;
-      margin: 5px 0;
-    }
-    .timer { font-size: 20px; margin-bottom: 10px; display:inline-block; }
-    .hidden { display: none; }
-    .leaderboard-entry { margin: 5px 0; }
-    .audio-controls {margin-top:12px; display:flex; gap:10px; align-items:center}
-    .audio-controls input[type=range]{width:120px}
-    .mute-indicator {font-size:18px; margin-left:8px}
+    :root{--bg1:#0a1a2f;--bg2:#0e223b;--accent:#00e5ff;--ok:#00c27a;--err:#ff5c5c}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#eaf7ff}
+    body::before{content:'';position:fixed;left:0;top:0;right:0;bottom:0;background:
+      url('stem-logo.png') no-repeat calc(100% - 24px) 24px,
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="%230a1a2f"/><stop offset="100%" stop-color="%230e223b"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/></svg>') center/cover no-repeat;opacity:0.18;pointer-events:none;z-index:-1}
+
+    .wrap{max-width:980px;margin:28px auto;padding:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+    header{display:flex;align-items:center;gap:12px}
+    h1{margin:0;font-size:20px}
+    .muted{color:#9fb7d6}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:14px}
+    @media (max-width:920px){.grid{grid-template-columns:1fr}}
+
+    .choices{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .choice{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease}
+    .choice:focus{outline:3px solid rgba(0,229,255,0.08)}
+    .choice:hover{transform:translateY(-3px)}
+    .choice.correct{background:linear-gradient(90deg, rgba(0,194,122,0.12), rgba(0,0,0,0.02));border-color:rgba(0,194,122,0.35);box-shadow:0 12px 30px rgba(0,194,122,0.06);transform:translateY(-6px)}
+    .choice.wrong{background:linear-gradient(90deg, rgba(255,92,92,0.12), rgba(0,0,0,0.02));border-color:rgba(255,92,92,0.35);box-shadow:0 12px 30px rgba(255,92,92,0.06);transform:translateY(-6px)}
+    .choice .letter{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-weight:800;color:var(--accent);background:rgba(255,255,255,0.02)}
+
+    .timer{font-family:monospace;background:rgba(0,0,0,0.12);padding:8px 12px;border-radius:8px}
+    .kbd{background:#0b2238;border-radius:6px;padding:6px 8px;font-family:monospace}
+    .leaderboard{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px}
+    .btn{background:linear-gradient(90deg,var(--accent),#7b61ff);border:0;color:#021;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+    input[type=text]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.12);color:inherit}
+    .audio-controls{margin-top:12px;display:flex;gap:10px;align-items:center}
+    .audio-controls input[type=range]{width:140px}
+    .mute-indicator{font-size:18px;margin-left:8px}
+    footer{margin-top:12px;display:flex;justify-content:space-between}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Airport Cyber Crisis</h1>
-      <div>
-        <span id="timer" class="timer">30:00</span>
-        <span id="mute-indicator" class="mute-indicator" aria-label="Mute status">🔊</span>
-      </div>
+      <header>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <svg width="44" height="44" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" rx="6"/></svg>
+        </div>
+        <div>
+          <h1>Airport Cyber Crisis</h1>
+          <div class="muted">Arcade-style incident response — 30 minutes, 20 questions</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div class="timer" id="top-timer">⏱ 30:00</div>
+          <div class="muted" id="top-score">Score: 0</div>
+        </div>
+      </header>
 
-      <div id="start-screen">
-        <p>Enter your name to begin:</p>
-        <input id="player-name" type="text" placeholder="Your name" />
-        <button id="start-btn" class="btn">Start</button>
-      </div>
+      <main style="margin-top:12px">
+        <section id="screen-welcome">
+          <div class="grid">
+            <div>
+              <h2 class="muted">Welcome</h2>
+              <p>Enter your player name and press <span class="kbd">Start</span>. This run will use all 20 scenarios. Wrong answers cost <strong id="penalty-text">60s</strong>.</p>
+              <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+                <input id="player-name" type="text" placeholder="Player name" />
+                <button class="btn" id="btn-start">Start</button>
+              </div>
 
-      <div id="game-screen" class="hidden">
-        <h2 id="question-title"></h2>
-        <div id="choices" class="choices"></div>
-      </div>
+              <div style="margin-top:12px" class="leaderboard">
+                <strong>Top responders</strong>
+                <ol id="leaderboard-list" style="padding-left:18px;margin-top:8px"></ol>
+                <div style="margin-top:8px"><button id="clear-leaderboard" style="background:transparent;border:0;color:var(--muted);cursor:pointer">Clear</button></div>
+              </div>
 
-      <div id="end-screen" class="hidden">
-        <h2>Game Over</h2>
-        <p id="final-score"></p>
-        <h3>Leaderboard</h3>
-        <div id="leaderboard"></div>
-        <button id="restart-btn" class="btn">Play Again</button>
-      </div>
+              <p class="muted" style="margin-top:10px">Tip: Replace <code>YOUR_LOGO.png</code> in the CSS <code>body::before</code> with your company logo filename.</p>
 
-      <!-- Audio controls -->
-      <div class="audio-controls">
-        <label>Volume 
-          <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="1">
-        </label>
-        <button id="mute-toggle" class="btn">Mute</button>
-      </div>
+              <div class="audio-controls" style="margin-top:14px">
+                <label class="muted small">Volume <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="1"></label>
+                <button id="mute-toggle" class="btn">Mute</button>
+                <span id="mute-indicator" class="mute-indicator" aria-hidden>🔊</span>
+              </div>
+
+            </div>
+
+            <aside class="card" style="padding:12px">
+              <strong>Game rules</strong>
+              <ul class="muted" style="margin-top:8px">
+                <li>20 questions per run, all shown in random order.</li>
+                <li>Correct answer: +100 points + time bonus.</li>
+                <li>Wrong answer: -60 seconds.</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section id="screen-game" style="display:none;margin-top:12px">
+          <div class="grid">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="muted">Question <span id="q-num">1</span> / <span id="q-total">20</span></div>
+                  <h2 id="q-title"></h2>
+                </div>
+                <div style="width:220px">
+                  <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:8px;overflow:hidden"><i id="progress-bar" style="display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffde00);width:0%"></i></div>
+                </div>
+              </div>
+
+              <div id="choices" class="choices" role="list"></div>
+              <div id="feedback" style="margin-top:10px;min-height:24px"></div>
+            </div>
+
+            <aside class="card" style="padding:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div class="muted">Responder</div><div id="display-name" style="font-weight:800"></div></div>
+                <div style="text-align:center"><div class="muted small">Time</div><div id="display-timer" style="font-size:20px">30:00</div></div>
+              </div>
+
+              <div style="margin-top:10px"><div class="muted small">Score</div><div id="display-score" style="font-size:20px;font-weight:800">0</div></div>
+              <div style="margin-top:10px"><button id="btn-end" class="btn">End Run</button></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="screen-end" style="display:none;margin-top:12px">
+          <h2>Run Complete</h2>
+          <p class="muted">You scored <strong id="final-score">0</strong> and answered <strong id="final-correct">0</strong> correct out of <span id="final-total">20</span>.</p>
+          <div style="display:flex;gap:8px"><button id="btn-play-again" class="btn">Play Again</button><button id="btn-share" class="btn">Copy Share Text</button></div>
+          <div style="margin-top:12px" class="leaderboard"><h3>Leaderboard — Top</h3><ol id="leaderboard-final" style="padding-left:18px;margin-top:6px"></ol></div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="muted small">Built for STEM event — airport incident response theme</div>
+        <div class="muted small">Replace <code>YOUR_LOGO.png</code> in CSS to show your logo</div>
+      </footer>
     </div>
   </div>
 
 <script>
 (function(){
-  const TOTAL_TIME = 30 * 60;
+  const TOTAL_TIME = 30*60;
   const PENALTY = 60;
   const POINTS_PER_CORRECT = 100;
-  const STORAGE_KEY = 'airport_cyber_leaderboard_v1';
-  const AUDIO_PREF_KEY = 'airport_cyber_audio_pref';
+  const STORAGE_KEY = 'airport_cyber_leaderboard_v2';
+  const AUDIO_PREF_KEY = 'airport_cyber_audio_pref_v2';
+  const QUESTIONS_PER_RUN = 20;
 
-  // ✅ Short working sounds
-  const SOUND_DING = "data:audio/wav;base64,UklGRoYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="; // short click beep
-  const SOUND_WRONG = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="; // different click beep
-
-  let QUESTIONS = [
-    // Original 10
+  // full pool of 20
+  const QUESTION_POOL = [
     {title:'A suspicious Wi-Fi network named "Airport_Guest_FREE" appears. What\'s your first action?', choices:['Block SSID and kick clients','Notify passengers','Disconnect staff devices','Scan with unauth tool'], correct:2},
     {title:'Spoofed payroll email received. What is priority?', choices:['Delete','Reset password','Quarantine and preserve headers','Publish to staff'], correct:2},
     {title:'Flight display screens defaced. Immediate step?', choices:['Reboot displays','Take offline and collect logs','Wait 24h','Call vendor only'], correct:1},
@@ -118,8 +159,6 @@
     {title:'Cloned badge detected. Best response?', choices:['Reissue all','Audit logs, remove clones, tighten checks','Close lounge','Disable readers'], correct:1},
     {title:'Exposed HVAC admin interface. Immediate action?', choices:['Contact vendor','Block public access, notify','Change settings','Exploit test'], correct:1},
     {title:'Phishing campaign at staff. How reduce impact?', choices:['Awareness + simulated campaign','Disable all email','Fire staff','Ignore'], correct:0},
-
-    // New 10
     {title:'Critical server patch is delayed due to vendor issue. What do you do?', choices:['Ignore','Document risk, apply mitigations','Switch vendor','Publicly complain'], correct:1},
     {title:'Suspicious bag left near data center entrance. First action?', choices:['Move bag','Report to security','Open it carefully','Ignore'], correct:1},
     {title:'Airline API keys accidentally leaked online. Best action?', choices:['Rotate keys immediately','Wait for incident','Postpone to next patch','Ignore'], correct:0},
@@ -132,44 +171,54 @@
     {title:'SCADA system controlling fuel pumps shows anomalies. Immediate action?', choices:['Isolate system, use manual override','Ignore','Update software during ops','Call media'], correct:0}
   ];
 
-  const el = id => document.getElementById(id);
-  const volumeSlider = el('volume-slider');
-  const muteToggle = el('mute-toggle');
-  const muteIndicator = el('mute-indicator');
+  let audioCtx=null, masterGain=null;
+  let volume=1, muted=false;
 
-  let sounds = {};
-  let muted = false;
-  let volume = 1;
-  let timeLeft = TOTAL_TIME;
-  let timerInterval;
-  let currentQuestion = 0;
-  let score = 0;
-  let playerName = '';
-
-  function shuffle(array){ for(let i=array.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [array[i],array[j]]=[array[j],array[i]];} return array;}
-
-  function loadAudioPrefs(){ try{ const stored=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)); if(stored){ volume=stored.volume; muted=stored.muted; } }catch(e){} }
-  function saveAudioPrefs(){ try{ localStorage.setItem(AUDIO_PREF_KEY, JSON.stringify({volume, muted})); }catch(e){} }
-  function preLoadSounds(){ sounds.correct=new Audio(SOUND_DING); sounds.wrong=new Audio(SOUND_WRONG); setVolume(volume); if(muted){ setVolume(0);} }
-  function setVolume(vol){ sounds.correct.volume=vol; sounds.wrong.volume=vol; }
-  function updateMuteUI(){ volumeSlider.value=muted?0:volume; muteToggle.textContent=muted?'Unmute':'Mute'; muteIndicator.textContent=muted?'🔇':'🔊'; }
-
-  volumeSlider.addEventListener('input', e=>{ volume=parseFloat(e.target.value); muted=volume===0; if(!muted)setVolume(volume); updateMuteUI(); saveAudioPrefs(); });
-  muteToggle.addEventListener('click', ()=>{ muted=!muted; if(muted){ setVolume(0); volumeSlider.value=0; } else { if(volume===0) volume=1; setVolume(volume); volumeSlider.value=volume; } updateMuteUI(); saveAudioPrefs(); });
-
-  function startGame(){
-    el('start-screen').classList.add('hidden'); el('game-screen').classList.remove('hidden');
-    playerName=el('player-name').value||'Player'; score=0; currentQuestion=0; timeLeft=TOTAL_TIME;
-    QUESTIONS = shuffle(QUESTIONS); // ✅ randomize order
-    renderQuestion(); timerInterval=setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0)endGame(); },1000);
+  function ensureAudioContext(){
+    if(audioCtx) return;
+    try{audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      masterGain=audioCtx.createGain();
+      masterGain.gain.value=muted?0:volume;
+      masterGain.connect(audioCtx.destination);
+    }catch(e){audioCtx=null;}
   }
-  function updateTimer(){ const m=Math.floor(timeLeft/60).toString().padStart(2,'0'); const s=(timeLeft%60).toString().padStart(2,'0'); el('timer').textContent=`${m}:${s}`; }
-  function renderQuestion(){ if(currentQuestion>=QUESTIONS.length){endGame();return;} const q=QUESTIONS[currentQuestion]; el('question-title').textContent=q.title; const c=el('choices'); c.innerHTML=''; q.choices.forEach((t,i)=>{const b=document.createElement('button'); b.className='btn'; b.textContent=t; b.onclick=()=>onChoose(i===q.correct); c.appendChild(b);}); }
-  function onChoose(correct){ if(correct){ score+=POINTS_PER_CORRECT; if(!muted){sounds.correct.currentTime=0; sounds.correct.play().catch(()=>{});} } else { timeLeft-=PENALTY; if(!muted){sounds.wrong.currentTime=0; sounds.wrong.play().catch(()=>{});} } currentQuestion++; renderQuestion(); }
-  function endGame(){ clearInterval(timerInterval); el('game-screen').classList.add('hidden'); el('end-screen').classList.remove('hidden'); el('final-score').textContent=`${playerName}, your score: ${score}`; let board=[]; try{board=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];}catch(e){} board.push({name:playerName,score}); board.sort((a,b)=>b.score-a.score); board=board.slice(0,10); localStorage.setItem(STORAGE_KEY,JSON.stringify(board)); const lb=el('leaderboard'); lb.innerHTML=''; board.forEach((e,i)=>{const d=document.createElement('div'); d.className='leaderboard-entry'; d.textContent=`${i+1}. ${e.name}: ${e.score}`; lb.appendChild(d);}); }
-  function init(){ loadAudioPrefs(); preLoadSounds(); updateMuteUI(); el('start-btn').onclick=startGame; el('restart-btn').onclick=()=>location.reload(); updateTimer(); }
-  init();
-})();
-</script>
-</body>
-</html>
+  function playTone(freq,duration){
+    if(!audioCtx) return;
+    const now=audioCtx.currentTime;
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    osc.type='sine';osc.frequency.value=freq;
+    osc.connect(g);g.connect(masterGain);
+    g.gain.setValueAtTime(0.001,now);
+    g.gain.exponentialRampToValueAtTime(0.5,now+0.01);
+    osc.start(now);
+    g.gain.exponentialRampToValueAtTime(0.001,now+duration);
+    osc.stop(now+duration+0.02);
+  }
+  function playCorrect(){ if(!muted) playTone(980,0.15); }
+  function playWrong(){ if(!muted) playTone(260,0.2); }
+
+  const $=id=>document.getElementById(id);
+  function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+
+  let gameQuestions=[],timeLeft=TOTAL_TIME,timerId=null,qIndex=0,score=0,answers=[];
+
+  function formatTime(s){const m=Math.floor(s/60).toString().padStart(2,'0');const ss=(s%60).toString().padStart(2,'0');return m+':'+ss;}
+  function updateTimerUI(){$('top-timer').textContent='⏱ '+formatTime(timeLeft);$('display-timer').textContent=formatTime(timeLeft);}
+
+  function renderQuestion(){
+    $('q-total').textContent=gameQuestions.length;
+    $('q-num').textContent=qIndex+1;
+    const q=gameQuestions[qIndex];
+    $('q-title').textContent=q.title;
+    const choices=$('choices');choices.innerHTML='';
+    q.choices.forEach((c,i)=>{
+      const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<div class="letter">${String.fromCharCode(65+i)}</div><div style="flex:1;text-align:left">${c}</div>`;
+      btn.onclick=()=>handleChoice(btn,i);choices.appendChild(btn);
+    });
+    $('progress-bar').style.width=Math.round((qIndex/gameQuestions.length)*100)+'%';
+  }
+
+  function handleChoice(btn,i){
+    if(btn.disabled) return;
+    const q=gameQuestions[qIndex
