@@ -3,30 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Airport Cyber Crisis — Updated</title>
+  <title>Airport Cyber Crisis</title>
   <style>
     :root{--bg1:#0a1a2f;--bg2:#0e223b;--accent:#00e5ff;--ok:#00c27a;--err:#ff5c5c}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#eaf7ff}
-    body::before{content:'';position:fixed;left:0;top:0;right:0;bottom:0;background:
-      url(stem-logo.png) no-repeat calc(100% - 24px) 24px,
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="%230a1a2f"/><stop offset="100%" stop-color="%230e223b"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/></svg>') center/cover no-repeat;opacity:0.18;pointer-events:none;z-index:-1}
+    body::before{content:'';position:fixed;left:0;top:0;right:0;bottom:0;background:url('stem-logo.png') no-repeat calc(100% - 24px) 24px;opacity:0.18;pointer-events:none;z-index:-1}
 
     .wrap{max-width:980px;margin:28px auto;padding:18px}
     .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6)}
-    header{display:flex;align-items:center;gap:12px}
-    h1{margin:0;font-size:20px}
-    .muted{color:#9fb7d6}
-    .grid{display:grid;grid-template-columns:1fr 360px;gap:16px;margin-top:14px}
-    @media (max-width:920px){.grid{grid-template-columns:1fr}}
 
     .choices{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .choice{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease}
+    .choice{
+      background:#ffffff; /* White background initially */
+      color:#111; /* Dark text for contrast */
+      padding:12px;border-radius:10px;
+      border:1px solid rgba(0,0,0,0.1);
+      cursor:pointer;
+      display:flex;align-items:center;gap:12px;
+      transition:transform .12s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease;
+    }
     .choice:focus{outline:3px solid rgba(0,229,255,0.08)}
-    .choice:hover{transform:translateY(-3px)}
-    .choice.correct{background:linear-gradient(90deg, rgba(0,194,122,0.12), rgba(0,0,0,0.02));border-color:rgba(0,194,122,0.35);box-shadow:0 12px 30px rgba(0,194,122,0.06);transform:translateY(-6px)}
-    .choice.wrong{background:linear-gradient(90deg, rgba(255,92,92,0.12), rgba(0,0,0,0.02));border-color:rgba(255,92,92,0.35);box-shadow:0 12px 30px rgba(255,92,92,0.06);transform:translateY(-6px)}
-    .choice .letter{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-weight:800;color:var(--accent);background:rgba(255,255,255,0.02)}
+    .choice:hover{
+    background:#fff8c4; /* Yellow hover highlight */
+    transform:translateY(-3px);
+  }
+    .choice.correct{background:var(--ok);color:#fff;border-color:rgba(0,194,122,0.6);box-shadow:0 12px 30px rgba(0,194,122,0.3);transform:translateY(-6px)}
+    .choice.wrong{background:var(--err);color:#fff;border-color:rgba(255,92,92,0.6);box-shadow:0 12px 30px rgba(255,92,92,0.3);transform:translateY(-6px)}
+    .choice .letter{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-weight:800;color:var(--accent);background:rgba(0,0,0,0.05)}
 
     .timer{font-family:monospace;background:rgba(0,0,0,0.12);padding:8px 12px;border-radius:8px}
     .kbd{background:#0b2238;border-radius:6px;padding:6px 8px;font-family:monospace}
