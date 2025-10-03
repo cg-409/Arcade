@@ -8,7 +8,15 @@
     :root{--bg1:#0a1a2f;--bg2:#0e223b;--accent:#00e5ff;--ok:#00c27a;--err:#ff5c5c}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#eaf7ff}
-    body::before{content:'';position:fixed;left:0;top:0;right:0;bottom:0;background:url('stem-logo.png') no-repeat calc(100% - 24px) 24px;opacity:0.18;pointer-events:none;z-index:-1}
+       body::before {
+      content: "";
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      /* Background placeholder for logo */
+      background: url('stem_logo.png') no-repeat center center / 40vw auto,
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="url(%23grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="%230a1a2f" stop-opacity="0.9"/><stop offset="100%" stop-color="%230e223b" stop-opacity="0.9"/></linearGradient></defs><g fill="%23ffffff22"><path d="M100 500 l50 -150 50 150z"/><rect x="400" y="450" width="30" height="150"/><polygon points="415,400 440,450 390,450"/><polygon points="700,420 720,460 680,460"/></g><g fill="%23ffffff55"><polygon points="200,200 250,210 230,230"/><polygon points="600,150 650,160 620,180"/></g></svg>') no-repeat center center / cover;
+      z-index: -1;
+    }
 
     .wrap{max-width:980px;margin:28px auto;padding:18px}
     .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.6)}
