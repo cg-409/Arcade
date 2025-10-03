@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Airport Cyber Crisis</title>
+  <title>Airport Cyber Crisis — Updated</title>
   <style>
     :root{--bg1:#0a1a2f;--bg2:#0e223b;--accent:#00e5ff;--ok:#00c27a;--err:#ff5c5c}
     *{box-sizing:border-box}
@@ -73,7 +73,7 @@
                 <div style="margin-top:8px"><button id="clear-leaderboard" style="background:transparent;border:0;color:var(--muted);cursor:pointer">Clear</button></div>
               </div>
 
-              <p class="muted" style="margin-top:10px">
+              <p class="muted" style="margin-top:10px">Tip: Replace <code>YOUR_LOGO.png</code> in the CSS <code>body::before</code> with your company logo filename.</p>
 
               <div class="audio-controls" style="margin-top:14px">
                 <label class="muted small">Volume <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="1"></label>
@@ -221,4 +221,65 @@
 
   function handleChoice(btn,i){
     if(btn.disabled) return;
-    const q=gameQuestions[qIndex
+    const q=gameQuestions[qIndex];const correct=q.correct;
+    const all=[...document.querySelectorAll('.choice')];
+    all.forEach(b=>b.disabled=true);
+    if(i===correct){
+      btn.classList.add('correct');$('feedback').textContent='✅ Correct';
+      score+=POINTS_PER_CORRECT;playCorrect();
+    }else{
+      btn.classList.add('wrong');
+      all[correct].classList.add('correct');
+      $('feedback').textContent='❌ Wrong';
+      timeLeft=Math.max(0,timeLeft-PENALTY);
+      playWrong();
+    }
+    answers.push(i===correct);
+    $('display-score').textContent=score;$('top-score').textContent='Score: '+score;
+    setTimeout(()=>{qIndex++;if(qIndex<gameQuestions.length)renderQuestion();else endRun();},1200);
+  }
+
+  function tick(){timeLeft--;updateTimerUI();if(timeLeft<=0)endRun();}
+
+  function startGame(){
+    ensureAudioContext();if(audioCtx.state==='suspended')audioCtx.resume();
+    const name=$('player-name').value.trim()||'Anon';
+    $('display-name').textContent=name;
+    gameQuestions=shuffle(QUESTION_POOL).slice(0,QUESTIONS_PER_RUN);
+    timeLeft=TOTAL_TIME;score=0;answers=[];qIndex=0;updateTimerUI();
+    $('display-score').textContent='0';$('top-score').textContent='Score: 0';
+    $('screen-welcome').style.display='none';$('screen-game').style.display='block';$('screen-end').style.display='none';
+    renderQuestion();clearInterval(timerId);timerId=setInterval(tick,1000);
+  }
+
+  function endRun(){
+    clearInterval(timerId);
+    $('screen-game').style.display='none';$('screen-end').style.display='block';
+    $('final-score').textContent=score;$('final-correct').textContent=answers.filter(Boolean).length;$('final-total').textContent=gameQuestions.length;
+    const name=$('display-name').textContent;const rec={name,score,date:Date.now()};
+    const arr=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');arr.push(rec);arr.sort((a,b)=>b.score-a.score);localStorage.setItem(STORAGE_KEY,JSON.stringify(arr.slice(0,10)));
+    renderLeaderboard();
+  }
+
+  function renderLeaderboard(){
+    const arr=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+    function fill(id){const el=$(id);el.innerHTML='';arr.forEach(r=>{const li=document.createElement('li');li.textContent=r.name+' — '+r.score;el.appendChild(li);});}
+    fill('leaderboard-list');fill('leaderboard-final');
+  }
+
+  $('btn-start').onclick=startGame;$('btn-end').onclick=endRun;$('btn-play-again').onclick=()=>{location.reload()};
+  $('btn-share').onclick=()=>{navigator.clipboard.writeText(`I scored ${score} in Airport Cyber Crisis!`);alert('Copied share text!')};
+  $('clear-leaderboard').onclick=()=>{localStorage.removeItem(STORAGE_KEY);renderLeaderboard();};
+  renderLeaderboard();
+
+  // audio controls
+  const vol=$('volume-slider'),muteBtn=$('mute-toggle'),muteInd=$('mute-indicator');
+  function applyAudioPref(){if(masterGain)masterGain.gain.value=muted?0:volume;vol.value=volume;muteBtn.textContent=muted?'Unmute':'Mute';muteInd.textContent=muted?'🔇':'🔊';localStorage.setItem(AUDIO_PREF_KEY,JSON.stringify({volume,muted}));}
+  vol.oninput=()=>{volume=parseFloat(vol.value);if(volume<=0)muted=true;else muted=false;applyAudioPref();};
+  muteBtn.onclick=()=>{muted=!muted;applyAudioPref();};
+  const saved=JSON.parse(localStorage.getItem(AUDIO_PREF_KEY)||'null');if(saved){volume=saved.volume;muted=saved.muted;}applyAudioPref();
+
+})();
+</script>
+</body>
+</html>
