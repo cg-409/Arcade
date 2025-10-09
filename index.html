@@ -70,10 +70,10 @@
         </div>
         <div>
           <h1>Airport Cyber Crisis</h1>
-          <div class="muted">Aviation Cyber Response Challenge – 30 minutes, 20 questions</div>
+          <div class="muted">Aviation Cyber Response Challenge – 20 minutes, 20 questions</div>
         </div>
         <div style="margin-left:auto;text-align:right">
-          <div class="timer" id="top-timer">⏱ 30:00</div>
+          <div class="timer" id="top-timer">⏱ 20:00</div>
           <div class="muted" id="top-score">Score: 0</div>
         </div>
       </header>
@@ -87,7 +87,7 @@
           <div class="grid">
             <div>
               <h2 class="muted">Welcome</h2>
-              <p>Enter your player name and press <span class="kbd">Start</span>. This run will use all 20 scenarios. Wrong answers cost <strong id="penalty-text">60s</strong>.</p>
+              <p>Enter your player name and press <span class="kbd">Start</span>. This challenge will be 20 questions. Wrong answers cost <strong id="penalty-text">60s</strong>.</p>
               <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
                 <input id="player-name" type="text" placeholder="Player name" />
                 <button class="btn" id="btn-start">Start</button>
@@ -165,7 +165,7 @@
 
 <script>
 (function(){
-  const TOTAL_TIME = 30*60;
+  const TOTAL_TIME = 20*60;
   const PENALTY = 60;
   const POINTS_PER_CORRECT = 100;
   const STORAGE_KEY = 'airport_cyber_leaderboard_v2';
