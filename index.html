@@ -174,26 +174,26 @@
 
   // full pool of 20
   const QUESTION_POOL = [
-    {title:'A suspicious Wi-Fi network named "Airport_Guest_FREE" appears. What\'s your first action?', choices:['Block SSID and kick clients','Notify passengers','Disconnect staff devices','Scan with unauth tool'], correct:2},
-    {title:'Spoofed payroll email received. What is priority?', choices:['Delete','Reset password','Quarantine and preserve headers','Publish to staff'], correct:2},
-    {title:'Flight display screens defaced. Immediate step?', choices:['Reboot displays','Take offline and collect logs','Wait 24h','Call vendor only'], correct:1},
-    {title:'Camera malware beaconing. Next?', choices:['Power off all','Isolate segment and capture traffic','Replace firmware','Ignore'], correct:1},
-    {title:'Vendor locked out with ransom note. Next?', choices:['Pay ransom','Activate continuity, isolate infected','Shutdown airport','Blame vendor'], correct:1},
-    {title:'Passenger data exfiltration. Highest priority?', choices:['Notify regulators','Identify/contain, preserve logs','Delete files','Ask passenger'], correct:1},
-    {title:'Unknown USB auto-installs software. What do you do?', choices:['Wipe laptop','Isolate, image drive, investigate','Install AV quick scan','Ignore'], correct:1},
-    {title:'Cloned badge detected. Best response?', choices:['Reissue all','Audit logs, remove clones, tighten checks','Close lounge','Disable readers'], correct:1},
-    {title:'Exposed HVAC admin interface. Immediate action?', choices:['Contact vendor','Block public access, notify','Change settings','Exploit test'], correct:1},
-    {title:'Phishing campaign at staff. How reduce impact?', choices:['Awareness + simulated campaign','Disable all email','Fire staff','Ignore'], correct:0},
-    {title:'Critical server patch is delayed due to vendor issue. What do you do?', choices:['Ignore','Document risk, apply mitigations','Switch vendor','Publicly complain'], correct:1},
-    {title:'Suspicious bag left near data center entrance. First action?', choices:['Move bag','Report to security','Open it carefully','Ignore'], correct:1},
-    {title:'Airline API keys accidentally leaked online. Best action?', choices:['Rotate keys immediately','Wait for incident','Postpone to next patch','Ignore'], correct:0},
-    {title:'Social media rumor of hacked booking system. What next?', choices:['Investigate logs, verify rumor','Post denial immediately','Shut down bookings','Ignore'], correct:0},
-    {title:'IDS shows brute-force attempts on VPN. Response?', choices:['Block offending IPs and monitor','Turn off VPN','Alert staff only','Ignore'], correct:0},
-    {title:'Third-party catering network connected improperly. First step?', choices:['Disconnect and isolate','Trust vendor','Ignore','Let them continue'], correct:0},
-    {title:'Pilot EFB (tablet) compromised with malware. Next?', choices:['Isolate device, switch to backup process','Ignore','Factory reset immediately','Blame pilot'], correct:0},
-    {title:'Unusual outbound DNS traffic. What is best action?', choices:['Investigate, capture packets','Ignore','Block all DNS','Call ISP'], correct:0},
-    {title:'Employee posts boarding pass on social media. Response?', choices:['Awareness training, revoke code','Ignore','Fire employee','Post it again'], correct:0},
-    {title:'SCADA system controlling fuel pumps shows anomalies. Immediate action?', choices:['Isolate system, use manual override','Ignore','Update software during ops','Call media'], correct:0}
+    {title:'During an aircraft’s maintenance data upload via Wi-Fi, which encryption weakness could allow attackers to exfiltrate logs undetected?', choices:['WPA3 Dragonfly handshake','WPA2 PSK reuse','WPA Enterprise certificate pinning','802.1X mutual authentication'], correct:1},
+    {title:'In aviation networks, which protocol is most at risk if an attacker performs a replay attack on ACARS messages between an aircraft and ground station?', choices:['TLS','SSL','VHF Data Link','SATCOM IP'], correct:2},
+    {title:'What type of cyberattack could cause false altitude readings by compromising ADS-B transmissions?', choices:['Jamming','Spoofing','Man-in-the-middle','Replay attack'], correct:1},
+    {title:'The use of unencrypted data buses within avionics systems presents which major cybersecurity risk?', choices:['Code injection','Data exfiltration','Message manipulation and spoofing','Cross-site scripting'], correct:2},
+    {title:'Which is the most effective mitigation to prevent unauthorized access to an online airline pilot roster system?', choices:['Use same password for all systems','Allow SQL injection at login','Enable MFA for all users','Store plain text credentials'], correct:2},
+    {title:'Which cybersecurity standard governs information security management systems relevant to aviation organizations?', choices:['ISO 27001','ETSI TR 104 128','NIST SP 800-53','DO-178C'], correct:0},
+    {title:'Which of the following is a primary security challenge unique to multi-tenant cloud environments?', choices:['DDos attacks','Insecure APIs','Data leakage between tenants','Weak password policies'], correct:2},
+    {title:'What cybersecurity vulnerability could arise if a maintenance technician uses an untrusted USB device to update Flight Management System software?', choices:['SQL injection','Firmware backdooring','Buffer overflow','Session hijacking'], correct:1},
+    {title:'What type of cyber threat does Lateral Movement represent in the context of airline ground network breaches?', choices:['Malware spreading across aircraft','Attack propagation between systems post-compromise','DDoS attack against air traffic control systems','Exploit of GPS jamming vulnerabilities'], correct:1},
+    {title:'In an airport’s cybersecurity monitoring center, what detection method best identifies insider threats manipulating air traffic databases?', choices:['Signature-based intrusion detection','Behavioral anomaly detection','Firewall ACL filtering','DNS sinkholing'], correct:1},
+    {title:'In a cloud environment, which of the following is the most effective way to prevent unauthorized access to sensitive data stored in object storage?', choices:['Rely on default public access settings','Use encryption at rest only','Implement IAM policies with least privilege','Disable all access to the storage bucket'], correct:2},
+    {title:'Which of the following attacks most effectively bypasses traditional signature-based intrusion detection systems (IDS)?', choices:['SYN flood attack','Polymorphic shellcode attack','ARP poisoning','Port scanning'], correct:1},
+    {title:'If an attacker exploits an outdated Electronic Flight Bag (EFB) OS vulnerability, what primary security principle is violated?', choices:['Confidentiality','Availability','Non-repudiation','Integrity'], correct:3},
+    {title:'In aviation cybersecurity, the Airline Operational Control (AOC) network is critical for:?', choices:['Passenger manifest handling','Aircraft dispatch and flight planning','In-flight entertainment','Baggage tracking'], correct:1},
+    {title:'Which of the following represents a supply chain cyber risk unique to avionics development?', choices:['Unpatched aircraft routers','DDoS on radar systems','Tampered firmware from third-party vendors','Insider misuse of EFBs'], correct:2},
+    {title:'Which of the following attacks specifically targets the integrity of an AI model by modifying its training data to cause incorrect outputs?', choices:['Evasion attack','Model inversion attack','Data poisoning attack','Adversarial example attack'], correct:2},
+    {title:'Which cryptographic control is most suitable for securing aircraft-to-ground data links?', choices:['AES-256 in ECB mode','TLS with ephemeral keys','SHA-1 hashing','RSA-1024 static encryption'], correct:1},
+    {title:'During flight operations, what is the most likely consequence of a successful denial-of-service attack on secondary radar systems?', choices:['Aircraft control restrictions','Loss of air traffic situational awareness','Staff credentials compromised','Data corruption in avionics'], correct:1},
+    {title:'An attacker cloning a legitimate airport Wi-Fi SSID to capture pilot credentials is performing what?', choices:['Evil twin attack','Rogue AP DoS','ARP poisoning','Phishing'], correct:0},
+    {title:'Which emerging aviation cybersecurity concern relates directly to unmanned air systems (UAS)?', choices:['Drone malware using C2 link','RemoteID location flooding','ADS-B spoofing of commercial airliners','Cabin network sniffing'], correct:1}
   ];
 
   let audioCtx=null, masterGain=null;
